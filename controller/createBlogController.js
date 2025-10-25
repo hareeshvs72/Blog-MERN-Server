@@ -1,10 +1,11 @@
+const { json } = require('express');
 const blogs = require('../model/createBlogSchema')
 
 exports.createBlog = async (req, res) => {
         console.log("inside Create Blog Controller");
         //  console.log(req.body);
 
-        const { title, subTitle, description, category } = req.body
+        const { title, subTitle, description, category,allowUpload } = req.body
         const userMail = req.payload
         // console.log(userMail);
         var thumbnail = []
@@ -27,7 +28,8 @@ exports.createBlog = async (req, res) => {
                                 description,
                                 category,
                                 thumbnail,
-                                userMail
+                                userMail,
+                                allowUpload
                         })
                         await newBlog.save()
                         res.status(201).json(newBlog)
@@ -40,4 +42,22 @@ exports.createBlog = async (req, res) => {
 
 }
 
+// display the blog in blog page
+
+exports.DisplayinBlogController = async(req,res)=>{
+       console.log("inside DisplayinBlogController");
+       const email = req.payload
+       console.log(email);
+       
+       try {
+        const usersBlog = await blogs.find({userMail:{$ne:email}})
+
+       res.status(200).json(usersBlog)
+       } catch (error) {
+          res.status(500).json(error)
+       }
+       
+
+     
+}
 

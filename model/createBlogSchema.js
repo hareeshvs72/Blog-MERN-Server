@@ -33,7 +33,12 @@ const blogSchema =new mongoose.Schema({
     userMail:{
         type:String,
         required:true
+    },
+    allowUpload:{
+        type:Boolean,
+        default:false
     }
+
 
     
     

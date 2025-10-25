@@ -15,10 +15,13 @@ route.post('/login',userControler.loginController)
 
 route.post('/google-login',userControler.googleLoginController)
 
-// add blog 
+// add or create blog 
 
 route.post('/create',jwtMiddleware,multeConfig.array('thumbnail',1),createBlogController.createBlog)
 
+// display blog in blog component 
+
+route.get('/blog',jwtMiddleware,createBlogController.DisplayinBlogController)
 // route
 
 module.exports = route
