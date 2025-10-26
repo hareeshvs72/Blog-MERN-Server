@@ -6,6 +6,7 @@
    require('dotenv').config()
    const route = require('./routing/router')
   require('./db/connection')
+
 //    create server 
 
 const blogAppServer = express()
@@ -15,7 +16,7 @@ const blogAppServer = express()
 blogAppServer.use(cors())
 blogAppServer.use(express.json())
 blogAppServer.use(route)
-
+  blogAppServer.use('/uploads',express.static('./uploads'))
 // port number
 
 const PORT = 3000
