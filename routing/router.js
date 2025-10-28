@@ -22,6 +22,9 @@ route.post('/create',jwtMiddleware,multeConfig.array('thumbnail',1),createBlogCo
 // display blog in blog component 
 
 route.get('/blog',jwtMiddleware,createBlogController.DisplayinBlogController)
-// route
+
+// display blog in Home compnnet 
+
+route.get('/home',jwtMiddleware,createBlogController.displayBlogsInHomeController)
 
 module.exports = route

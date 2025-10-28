@@ -47,10 +47,15 @@ exports.createBlog = async (req, res) => {
 exports.DisplayinBlogController = async(req,res)=>{
        console.log("inside DisplayinBlogController");
        const email = req.payload
+       const searchKey = req.query.search
+       const query = {
+        userMail:{$ne:email},
+        title:{$regex:searchKey,$options:"i"}
+       }
        console.log(email);
        
        try {
-        const usersBlog = await blogs.find({userMail:{$ne:email}})
+        const usersBlog = await blogs.find(query)
 
        res.status(200).json(usersBlog)
        } catch (error) {
@@ -58,6 +63,25 @@ exports.DisplayinBlogController = async(req,res)=>{
        }
        
 
+     
+}
+
+// display latest blogs in home page
+
+exports.displayBlogsInHomeController = async (req,res)=>{
+   console.log("insdie display blog in home ");
+
+   const email = req.payload
+  console.log(email);
+
+  try {
+       const homeBlogs = await blogs.find({userMail:{$ne:email}}).sort({_id:-1}).limit(4)
+       console.log(homeBlogs);
+       
+       res.status(200).json(homeBlogs) 
+  } catch (error) {
+        res.status(500).json(error)
+  }
      
 }
 
