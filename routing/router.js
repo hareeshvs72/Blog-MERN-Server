@@ -5,6 +5,9 @@ const userControler = require('../controller/userControl')
 const createBlogController = require('../controller/createBlogController')
 const jwtMiddleware = require('../middleware/jwtMiddleware')
 const multeConfig = require('../middleware/multerMidlewarew')
+
+// ----------------------------  User Routes --------------
+
 // register
 
 route.post('/register',userControler.registerController)
@@ -14,6 +17,12 @@ route.post('/login',userControler.loginController)
 // google login
 
 route.post('/google-login',userControler.googleLoginController)
+
+// update user profile
+
+route.put('/user-update',jwtMiddleware,multeConfig.fields([{name:'profile',maxCount:1},{name:'banner',maxCount:1}]),userControler.editUserProfileController)
+
+// -----------------------bolg routes ------------------------
 
 // add or create blog 
 

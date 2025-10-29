@@ -87,3 +87,31 @@ exports.googleLoginController = async (req,res)=>{
           // res.status(200).send("register req recived !!!")      
 }
 // profile
+
+// edit user profile
+
+exports.editUserProfileController = async (req,res)=>{
+  console.log("inside edit user profile");
+  
+  const {username,password,profile,banner,bio,insta,github,twitterx,linkedin,role}= req.body
+  const email = req.payload
+
+  // console.log("inside req ");
+  // console.log( req.files?.profile[0]?.filename);
+  
+  
+   const updateProfile = req.files?.profile?.[0]?.filename || profile
+   const updatebanner = req.files?.banner?.[0]?.filename || banner
+
+   try {
+    const updatedData = await users.findOneAndUpdate({email},{username,password,profile:updateProfile,banner:updatebanner ,bio,insta,github,twitterx,linkedin,role},{new:true})
+    await updatedData.save()
+    res.status(200).json(updatedData)
+    if(!updatedData){
+      res.status(404).json("user Not Founded")
+    }
+   } catch (error) {
+    res.status(500).json(error)
+   }
+
+}
