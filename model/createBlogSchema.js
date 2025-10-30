@@ -37,6 +37,10 @@ const blogSchema =new mongoose.Schema({
     allowUpload:{
         type:Boolean,
         default:false
+    },
+    username:{
+        type:String,
+        require:true
     }
 
 

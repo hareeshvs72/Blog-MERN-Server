@@ -5,7 +5,7 @@ const userControler = require('../controller/userControl')
 const createBlogController = require('../controller/createBlogController')
 const jwtMiddleware = require('../middleware/jwtMiddleware')
 const multeConfig = require('../middleware/multerMidlewarew')
-
+const commentController = require('../controller/commentController')
 // ----------------------------  User Routes --------------
 
 // register
@@ -34,6 +34,20 @@ route.get('/blog',jwtMiddleware,createBlogController.DisplayinBlogController)
 
 // display blog in Home compnnet 
 
-route.get('/home',jwtMiddleware,createBlogController.displayBlogsInHomeController)
+route.get('/home',createBlogController.displayBlogsInHomeController)
+
+// get a signle blogs view  
+
+route.get('/view/:id/blog',jwtMiddleware,createBlogController.viewSingleBlogController)
+
+
+// ------------------- comments  ----------------------
+
+// create a comment
+
+route.post('/create-comment/:blogId',jwtMiddleware,commentController.addNewCommentController)
+
+route.get('/all-comment/:blogId',jwtMiddleware,commentController.getAllCommentsForBlogController)
+
 
 module.exports = route

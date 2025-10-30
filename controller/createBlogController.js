@@ -1,11 +1,12 @@
 const { json } = require('express');
-const blogs = require('../model/createBlogSchema')
+const blogs = require('../model/createBlogSchema');
+const { single } = require('../middleware/multerMidlewarew');
 
 exports.createBlog = async (req, res) => {
         console.log("inside Create Blog Controller");
         //  console.log(req.body);
 
-        const { title, subTitle, description, category,allowUpload } = req.body
+        const { title, subTitle, description, category,allowUpload,username } = req.body
         const userMail = req.payload
         // console.log(userMail);
         var thumbnail = []
@@ -29,7 +30,8 @@ exports.createBlog = async (req, res) => {
                                 category,
                                 thumbnail,
                                 userMail,
-                                allowUpload
+                                allowUpload,
+                                username
                         })
                         await newBlog.save()
                         res.status(201).json(newBlog)
@@ -83,6 +85,20 @@ exports.displayBlogsInHomeController = async (req,res)=>{
         res.status(500).json(error)
   }
      
+}
+
+// view single blog 
+
+exports.viewSingleBlogController = async(req,res)=>{
+        console.log( "inside view blog controller");
+        
+        const {id} = req.params
+        try {
+        const singleBlog = await blogs.findById({_id:id})
+        res.status(200).json(singleBlog)
+        } catch (error) {
+                res.status(500).json(error)
+        }       
 }
 
 
