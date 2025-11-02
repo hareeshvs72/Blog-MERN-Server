@@ -18,7 +18,7 @@ const blogSchema =new mongoose.Schema({
         required:true
     },
     thumbnail:{
-        type:Array,
+        type:String,
         required:true
    }
     ,

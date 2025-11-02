@@ -9,10 +9,7 @@ exports.createBlog = async (req, res) => {
         const { title, subTitle, description, category,allowUpload,username } = req.body
         const userMail = req.payload
         // console.log(userMail);
-        var thumbnail = []
-        req.files.map(item => thumbnail.push(item.filename))
-        console.log(thumbnail);
-
+       const thumbnail = req.file.filename
         try {
                 console.log();
 
@@ -101,5 +98,64 @@ exports.viewSingleBlogController = async(req,res)=>{
         }       
 }
 
+// get individual user blogs 
+
+exports.getBlogsIndividualUserController = async (req,res)=>{
+       console.log("inside getBlogsIndividualUserController");
+       const userMail = req.payload
+      
+       console.log(userMail);
+   
+       try {
+        const individualUser = await blogs.find({userMail})
+        console.log(individualUser);
+        
+       res.status(200).json(individualUser)
+       } catch (error) {
+          res.status(500).json(error)
+       }
+}
+
+// delet individual user blogs
+
+exports.deleteIndividualUserBlogsController = async(req,res)=>{
+        console.log("inside deleteIndividualUserBlogsController");
+        const {blogId} = req.params
+        console.log(blogId);
+        
+        try {
+                const deletedBlog = await blogs.findByIdAndDelete({_id:blogId})
+                console.log(deletedBlog);
+                
+                res.status(200).json(deletedBlog)
+        } catch (error) {
+             res.status(500).json(error)
+                
+        }
+
+        
+}
 
 
+// update blog by id
+
+exports.updateBlogsController = async(req,res)=>{
+        console.log("inside update blog controller");
+        
+        const { title, subTitle, description, category,thumbnail,allowUpload,username } = req.body
+        // const userMail = req.payload
+        // console.log(userMail);
+      const  Updatethumbnail =  req.file?req.file.filename : thumbnail
+
+        const {blogId} = req.params
+        console.log(blogId);
+        
+
+        try {
+                const updateBlog = await blogs.findByIdAndUpdate(blogId,{title, subTitle, description, category,thumbnail:Updatethumbnail,allowUpload,username},{new:true})
+                await updateBlog.save()
+        res.status(200).json(updateBlog)
+        } catch (error) {
+                res.status(500).json(error)
+        }
+}

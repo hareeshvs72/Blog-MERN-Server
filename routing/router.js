@@ -22,11 +22,20 @@ route.post('/google-login',userControler.googleLoginController)
 
 route.put('/user-update',jwtMiddleware,multeConfig.fields([{name:'profile',maxCount:1},{name:'banner',maxCount:1}]),userControler.editUserProfileController)
 
+
+// get blogs of individual users
+
+route.get('/individual/user',jwtMiddleware,createBlogController.getBlogsIndividualUserController)
+
+// delete blogs for individual user 
+
+route.delete('/delete-blogs/:blogId',createBlogController.deleteIndividualUserBlogsController)
+
 // -----------------------bolg routes ------------------------
 
 // add or create blog 
 
-route.post('/create',jwtMiddleware,multeConfig.array('thumbnail',1),createBlogController.createBlog)
+route.post('/create',jwtMiddleware,multeConfig.single('thumbnail',1),createBlogController.createBlog)
 
 // display blog in blog component 
 
@@ -40,6 +49,11 @@ route.get('/home',createBlogController.displayBlogsInHomeController)
 
 route.get('/view/:id/blog',jwtMiddleware,createBlogController.viewSingleBlogController)
 
+// update a blog for individual user 
+
+route.put('/update-blog/:blogId',jwtMiddleware,multeConfig.single("thumbnail",1),createBlogController.updateBlogsController)
+
+
 
 // ------------------- comments  ----------------------
 
@@ -47,7 +61,13 @@ route.get('/view/:id/blog',jwtMiddleware,createBlogController.viewSingleBlogCont
 
 route.post('/create-comment/:blogId',jwtMiddleware,commentController.addNewCommentController)
 
+// view all comments of a blog
+
 route.get('/all-comment/:blogId',jwtMiddleware,commentController.getAllCommentsForBlogController)
+
+// get all individual user All Comments
+
+route.get('/individual-comments',jwtMiddleware,commentController.getAllCommentsForIndividualUser)
 
 
 module.exports = route
