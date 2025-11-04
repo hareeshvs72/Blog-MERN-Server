@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     },
      bio:{
         type:String,
-       default:"book store user"
+       default:"Blog  user"
     },
     
      insta:{
