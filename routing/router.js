@@ -6,6 +6,7 @@ const createBlogController = require('../controller/createBlogController')
 const jwtMiddleware = require('../middleware/jwtMiddleware')
 const multeConfig = require('../middleware/multerMidlewarew')
 const commentController = require('../controller/commentController')
+const adminJwtMiddleware = require('../middleware/adminJwtMiddleWare')
 // ----------------------------  User Routes --------------
 
 // register
@@ -67,7 +68,11 @@ route.get('/all-comment/:blogId',jwtMiddleware,commentController.getAllCommentsF
 
 // get all individual user All Comments
 
-route.get('/individual-comments',jwtMiddleware,commentController.getAllCommentsForIndividualUser)
+// route.get('/individual-comments',jwtMiddleware,commentController.getAllCommentsForIndividualUser)
 
+// --------------------- admin ----------------------
+
+
+route.get('/get-allblog-admin',adminJwtMiddleware,createBlogController.displayAdminAllBlogs)
 
 module.exports = route

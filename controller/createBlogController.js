@@ -159,3 +159,20 @@ exports.updateBlogsController = async(req,res)=>{
                 res.status(500).json(error)
         }
 }
+
+// ---------------admin blog controller-----------------------
+
+
+// display all blogs in admin page
+
+exports.displayAdminAllBlogs = async(req,res)=>{
+       console.log("inside displayAdminPageController");
+
+       try {
+        const usersBlog = await blogs.find()
+
+       res.status(200).json(usersBlog)
+       } catch (error) {
+          res.status(500).json(error)
+       }   
+}
