@@ -133,3 +133,30 @@ exports.displayAllUsersController = async(req,res)=>{
  }
 
 }
+
+// update admin profile
+
+exports.adminProfileUpdateController = async (req, res) => {
+  console.log("inside adminProfileUpdateController");
+
+  const { username, password, bio, role } = req.body;
+  const adminEmail = req.payload; // from JWT
+  const updateProfile = req.file ? req.file.filename : req.body.profile;
+
+  try {
+    const updatedAdmin = await users.findOneAndUpdate(
+      { email: adminEmail },
+      { username, password, profile: updateProfile, bio, role },
+      { new: true }
+    );
+
+    if (!updatedAdmin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    res.status(200).json(updatedAdmin);
+  } catch (error) {
+    console.error("Error updating admin:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

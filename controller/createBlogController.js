@@ -49,6 +49,7 @@ exports.DisplayinBlogController = async(req,res)=>{
        const searchKey = req.query.search
        const query = {
         userMail:{$ne:email},
+        status:{$eq : "Aproved"},
         title:{$regex:searchKey,$options:"i"}
        }
        console.log(email);

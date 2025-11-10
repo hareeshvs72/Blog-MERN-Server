@@ -32,6 +32,11 @@ route.get('/individual/user',jwtMiddleware,createBlogController.getBlogsIndividu
 
 route.delete('/delete-blogs/:blogId',createBlogController.deleteIndividualUserBlogsController)
 
+// admin profile update 
+
+route.put('/admin-profile-edit', adminJwtMiddleware,multeConfig.single("profile"),userControler.adminProfileUpdateController);
+
+
 // -----------------------bolg routes ------------------------
 
 // add or create blog 
