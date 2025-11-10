@@ -176,3 +176,26 @@ exports.displayAdminAllBlogs = async(req,res)=>{
           res.status(500).json(error)
        }   
 }
+
+// update blog status
+
+exports.updateBlogStatus = async(req,res)=>{
+    
+
+  console.log("inside updateBlogStatus ");
+
+  const {_id, title, subTitle,description, category,thumbnail,createdAt,userMail,allowUpload,username,status } = req.body
+  try {
+    const updateBlog = await blogs.findByIdAndUpdate({ _id }, { title, subTitle,description, category,thumbnail,createdAt,status:"Aproved",userMail,allowUpload,username }, { new: true })
+    await updateBlog.save()
+//     console.log(updateBlog);
+    
+    res.status(200).json(updateBlog)
+  } catch (error) {
+    res.status(500).json(error)
+//     console.log(error);
+    
+  }
+
+
+}

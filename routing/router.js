@@ -72,7 +72,17 @@ route.get('/all-comment/:blogId',jwtMiddleware,commentController.getAllCommentsF
 
 // --------------------- admin ----------------------
 
+// display all blogs
 
 route.get('/get-allblog-admin',adminJwtMiddleware,createBlogController.displayAdminAllBlogs)
+
+// display all users 
+
+route.get('/alluser-admin',adminJwtMiddleware,userControler.displayAllUsersController)
+
+// update Blog Status
+
+route.put('/update-status',adminJwtMiddleware,createBlogController.updateBlogStatus)
+
 
 module.exports = route

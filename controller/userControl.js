@@ -115,3 +115,21 @@ exports.editUserProfileController = async (req,res)=>{
    }
 
 }
+
+// display all user  in admin 
+
+exports.displayAllUsersController = async(req,res)=>{
+  console.log("inside displayAllUser ");
+  
+ const role = req.role
+ console.log(role);
+ 
+
+ try {
+      const allUser = await  users.find({role:{$ne : role}})
+      res.status(200).json(allUser)
+ } catch (error) {
+        res.status(200).json(error)
+ }
+
+}
