@@ -75,7 +75,7 @@ exports.displayBlogsInHomeController = async (req,res)=>{
   console.log(email);
 
   try {
-       const homeBlogs = await blogs.find({userMail:{$ne:email}}).sort({_id:-1}).limit(4)
+       const homeBlogs = await blogs.find({userMail:{$ne:email},status:{$eq : "Aproved"}}).sort({_id:-1}).limit(4)
        console.log(homeBlogs);
        
        res.status(200).json(homeBlogs) 
