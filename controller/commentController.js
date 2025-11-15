@@ -38,7 +38,7 @@ exports.getAllCommentsForBlogController = async (req,res)=>{
     
     const {blogId} = req.params
     try {
-         const allComments = await comments.find({blogId}).populate("userId", "username profile" ).sort({createdAt:-1})
+         const allComments = await comments.find({blogId}).populate("userId", "username email profile" ).sort({createdAt:-1})
          res.status(200).json(allComments)
          console.log(allComments);
          
