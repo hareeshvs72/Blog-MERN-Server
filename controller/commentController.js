@@ -4,67 +4,48 @@ const users = require('../model/userSchema')
 
 // add new comment
 
-exports.addNewCommentController = async(req,res)=>{
-    console.log("inside comments controller")
+exports.addNewCommentController = async (req, res) => {
+  console.log("inside comments controller")
 
-    const {blogId}= req.params
-    console.log( req.payload);
-    
-    const email = req.payload
-    const {text}= req.body
- 
-    // console.log(email);
-    
-    try {
-    const user = await users.findOne({email})
+  const { blogId } = req.params
+  console.log(req.payload);
+
+  const email = req.payload
+  const { text } = req.body
+
+  // console.log(email);
+
+  try {
+    const user = await users.findOne({ email })
     // console.log("found user ", user);
-    
-     const userId = user._id
+
+    const userId = user._id
     console.log(userId);
-        const newComment = await comments.create({blogId,userId,text})
-        await newComment.save()
-        res.status(200).json(newComment)
-    } catch (error) {
-        console.log(error);
-        
-    }
-    
+    const newComment = await comments.create({ blogId, userId, text })
+    await newComment.save()
+    res.status(200).json(newComment)
+  } catch (error) {
+    console.log(error);
+
+  }
+
 }
 
 // get all comment for a perticular blog 
 
-exports.getAllCommentsForBlogController = async (req,res)=>{
-    console.log("inside getAllCommentsForBlogController ");
-    
-    const {blogId} = req.params
-    try {
-         const allComments = await comments.find({blogId}).populate("userId", "username email profile" ).sort({createdAt:-1})
-         res.status(200).json(allComments)
-         console.log(allComments);
-         
-    } catch (error) {
-        res.status(500).json(error)
-    }
+exports.getAllCommentsForBlogController = async (req, res) => {
+  console.log("inside getAllCommentsForBlogController ");
+
+  const { blogId } = req.params
+  try {
+    const allComments = await comments.find({ blogId }).populate("userId", "username email profile").sort({ createdAt: -1 })
+    res.status(200).json(allComments)
+    console.log(allComments);
+
+  } catch (error) {
+    res.status(500).json(error)
+  }
 }
-
-// get all comments for a individual user
-
-// exports.getAllCommentsForIndividualUser = async (req,res)=>{
-//        console.log("inside getAllCommentsForIndividualUser");
-//        const email = req.payload
-//        const userDetail = await users.findOne({email})
-//        const id = userDetail._id
-//        console.log(id);
-   
-//        try {
-//         const individualComments = await comments.find({userId:id}).populate("blogId", "title")
-//         console.log(individualComments);
-        
-//        res.status(200).json(individualUser)
-//        } catch (error) {
-//           res.status(500).json(error)
-//        }
-// }
 
 exports.getAllCommentsForIndividualUser = async (req, res) => {
   console.log("Inside getAllCommentsForIndividualUser");
@@ -111,5 +92,39 @@ exports.getAllCommentsForIndividualUser = async (req, res) => {
   }
 };
 
+// edit comment by the user
 
+exports.editUserCommentController = async (req, res) => {
+  console.log("inside edit user commnet controller");
+  const email = req.payload
+  // console.log(email);
+  const { _id, text, userId } = req.body
+  const getUser = await users.findOne({ email })
+  // console.log(userId.email);
+  
+  if (userId.email == email) {
+    try {
+      const updateComment = await comments.findByIdAndUpdate({ _id }, { text }, { new: true })
+      res.status(200).json(updateComment)
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+  else{
+    res.status(404).json("something went wrong not found user")
+  }
 
+}
+
+exports.deleteUserComment = async (req, res) => {
+  console.log("inside delte user commnet controller");
+
+  try {
+    const { id } = req.params
+    const deleteComment = await comments.findByIdAndDelete({ _id: id })
+    res.status(200).json(deleteComment)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+
+}

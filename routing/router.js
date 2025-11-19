@@ -71,9 +71,19 @@ route.post('/create-comment/:blogId',jwtMiddleware,commentController.addNewComme
 
 route.get('/all-comment/:blogId',jwtMiddleware,commentController.getAllCommentsForBlogController)
 
+// update comment
+
+route.put('/update/comment',jwtMiddleware,commentController.editUserCommentController)
+
+// delete comment 
+
+route.delete('/delete/:id/comment',jwtMiddleware,commentController.deleteUserComment)
+
 // get all individual user All Comments
 
 // route.get('/individual-comments',jwtMiddleware,commentController.getAllCommentsForIndividualUser)
+
+
 
 // --------------------- admin ----------------------
 
