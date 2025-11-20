@@ -59,6 +59,9 @@ route.get('/view/:id/blog',jwtMiddleware,createBlogController.viewSingleBlogCont
 
 route.put('/update-blog/:blogId',jwtMiddleware,multeConfig.single("thumbnail",1),createBlogController.updateBlogsController)
 
+// like blog 
+
+route.put("/blog/:blogId/like", jwtMiddleware, createBlogController.likeBlogController)
 
 
 // ------------------- comments  ----------------------

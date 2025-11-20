@@ -200,3 +200,41 @@ exports.updateBlogStatus = async(req,res)=>{
 
 
 }
+
+// like or unlike blog
+
+exports.likeBlogController = async (req, res) => {
+  console.log("inside like blog controller");
+
+  const { blogId } = req.params;
+  const userEmail = req.payload; // logged-in user
+
+  try {
+    const blog = await blogs.findById(blogId);
+
+    if (!blog) {
+      return res.status(404).json("Blog not found");
+    }
+
+    // LIKE / UNLIKE LOGIC
+    if (blog.likes.includes(userEmail)) {
+      // UNLIKE
+      blog.likes = blog.likes.filter(email => email !== userEmail);
+    } else {
+      // LIKE
+      blog.likes.push(userEmail);
+    }
+
+    await blog.save();
+
+    return res.status(200).json({
+      likes: blog.likes.length,               // count
+      likedByUser: blog.likes.includes(userEmail) // boolean
+    });
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
